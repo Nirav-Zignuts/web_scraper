@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm p-4 bg-white">
+        <form method="post">
+            {% csrf_token %}
+            <label for="search">Enter Your Search</label>
+            <input type="search" class="form-control mb-3 mt-3" name="search" placeholder="Enter Product Name">
+            <input type="submit" class="btn btn-primary">
+        </form>
+    </div>
+
+    {% if flipkart or reliance %}
+    <div class="row mt-5">
+        <!-- Flipkart Box -->
+        <div class="col-md-6">
+            <div class="card p-3 shadow">
+                <h4>Flipkart</h4>
+                {% if flipkart %}
+                    {% if flipkart.image_url %}
+                        <img src="{{ flipkart.image_url }}" alt="Flipkart Product Image" class="img-fluid" style="height: 90px;width: 90px;">
+                    {% endif %}
+                    <p><strong>Product Name:</strong> {{ name }}</p>
+                    <p><strong>Price:</strong> {{ flipkart.price }}</p>
+                    <p><strong>Specifications:</strong></p>
+                    <ul>
+                        {% for spec in flipkart.specifications %}
+                            <li>{{ spec }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ flipkart.url }}" class="btn btn-primary" target="_blank">Buy on Flipkart</a>
+                {% else %}
+                    <p>No results found on Flipkart.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Reliance (or another e-commerce) Box -->
+        <div class="col-md-6">
+            <div class="card p-3 shadow">
+                <h4>Reliance Digital</h4>
+                {% if reliance %}
+                    <img src="{{ reliance.image_url }}" alt="Reliance Product Image" class="img-fluid">
+                    <p><strong>Product Name:</strong> {{ reliance.name }}</p>
+                    <p><strong>Price:</strong> ₹{{ reliance.price }}</p>
+                    <p><strong>Specifications:</strong></p>
+                    <ul>
+                        {% for spec in reliance.specifications %}
+                            <li>{{ spec }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ reliance.url }}" class="btn btn-primary" target="_blank">Buy on Reliance Digital</a>
+                {% else %}
+                    <p>No results found on Reliance Digital.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

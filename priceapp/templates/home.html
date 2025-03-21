@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="text-center">
+        {% if user.is_authenticated %}
+        <h1>Welcome {{user}} to the Price Comparison Platform</h1>
+        {% else %}
+        <h1>Welcome  to the Price Comparison Platform</h1>
+
+        {% endif %}
+        <p>Compare prices from Amazon, Flipkart, and more.</p>
+        <a href="{% url 'search' %}" class="btn btn-primary">Start Searching</a>
+    </div>
+{% endblock %}
