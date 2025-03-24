@@ -36,11 +36,11 @@ def search(request):
         if not search_query:
             return render(request, 'search.html')
 
-        # Fetch product data from multiple e-commerce platforms
+#    get_flipkart_price(search_query)     # Fetch product data from multiple e-commerce platforms
         flipkart_data = get_flipkart_price(search_query)
         reliance_data = get_reliance_price(search_query)  # Another scraper function
         print(flipkart_data)
-        print(flipkart_data.get("Image_URL", ""))
+        # print(flipkart_data.get("Image_URL", ""))
         # Pass the data to the template
         formatted_flipkart = {
             "name": flipkart_data.get("Product Name", "N/A"),  # Fix key
@@ -49,13 +49,17 @@ def search(request):
             "url": flipkart_data.get("URL", "#"),
             "image_url": flipkart_data.get("Image_URL", ""),  # Ensure image URL is provided
         }
-
+        # if reliance_data.get("purlname", "#") in ("Flipkart","Amazon"):
+        #     if reliance_data.get("purl", "#") == "Flipkart":
+        #         pass
         formatted_reliance = {
             "name": reliance_data.get("Product Name", "N/A"),
             "price": reliance_data.get("price", "N/A"),
-            "specifications": reliance_data.get("Specifications", []),
+            "specifications": flipkart_data.get("Specifications", []),
             "url": reliance_data.get("URL", "#"),
             "image_url": reliance_data.get("Image_URL", ""),
+            "pname":reliance_data.get("purlname", "#"),
+            "p_url": reliance_data.get("purllink", "#"),
              
         }
 
